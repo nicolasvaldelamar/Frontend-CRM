@@ -1,4 +1,7 @@
 import React, { useState } from 'react'
+import clienteAxios from '../../config/axios'
+
+import Swal from 'sweetalert2';
 
 const NuevoCliente = () => {
 
@@ -22,6 +25,31 @@ const NuevoCliente = () => {
         console.log(cliente)
     }
 
+    //agrega en la REST API un cliente nuevo
+    const agregarCliente = e => {
+        e.preventDefault();
+
+        //enviar peticion
+        clienteAxios.post('/clientes', cliente)
+            .then(res => {
+                // validar si hay errores de mongo
+                if(res.data.code === 11000) {
+                    console.log('Error de duplicado de Mongo')
+                }else {
+                    console.log(res.data)
+                    
+                    Swal.fire(
+                        'Se agrego el Cliente',
+                        res.data.mensaje,
+                        'success'
+                    )
+                }
+
+                // Redireccionar
+
+            })
+    }
+
     //validar el formulario
     const validarCliente = () => {
         const {nombre, apellido, email, empresa, telefono } =  cliente;
@@ -36,7 +64,9 @@ const NuevoCliente = () => {
     return (
         <>
             <h2>Nuevo Cliente</h2>
-            <form>
+            <form
+                onSubmit={agregarCliente}
+            >
                 <legend>Llena todos los campos</legend>
 
                 <div className="campo">
@@ -73,7 +103,7 @@ const NuevoCliente = () => {
 
                 <div className="campo">
                     <label>Teléfono:</label>
-                    <input type="email" 
+                    <input type="tel" 
                     placeholder="Teléfono Cliente" 
                     name="telefono"
                     onChange={actualizarState} />
