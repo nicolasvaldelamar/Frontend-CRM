@@ -22,7 +22,7 @@ const Clientes = () => {
     // use effect
     useEffect(()=>{
         consultarAPI();
-    },[]);
+    },[clientes]);
 
     return ( 
         <>
