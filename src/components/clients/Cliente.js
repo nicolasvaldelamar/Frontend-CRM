@@ -1,10 +1,9 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 const Cliente = ({cliente}) => {
-    
     //extraer los valores
     const { _id, nombre, apellido, empresa, email, telefono } = cliente;
-
 
     return (
         <li className="cliente">
@@ -15,10 +14,10 @@ const Cliente = ({cliente}) => {
                 <p>Tel: {telefono}</p>
             </div>
             <div className="acciones">
-                <a href="#" className="btn btn-azul">
+                <Link to={`/cliente/editar/${_id}`} className="btn btn-azul">
                     <i className="fas fa-pen-alt"></i>
                     Editar Cliente
-                </a>
+                </Link>
                 <button type="button" className="btn btn-rojo btn-eliminar">
                     <i className="fas fa-times"></i>
                     Eliminar Cliente
